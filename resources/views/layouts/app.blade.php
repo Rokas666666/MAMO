@@ -29,48 +29,54 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/dashboard') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <a class="navbar-brand" href="{{ url('/lesson') }}">
-                    Lessons
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <a class="navbar-brand" href="{{ url('/module') }}">
-                    Modules
-                </a>
-                <a class="navbar-brand" href="{{ url('/group') }}">
-                    Grupes
-                </a>
-                <a class="navbar-brand" href="{{ url('/room') }}">
-                    Kabinetai
-                </a>
-                <a class="navbar-brand" href="{{ url('/grade') }}">
-                    Pazymiai
-                </a>
-                <a class="navbar-brand" href="{{ url('/school') }}">
-                    Mokyklos
-                </a>
-                <a class="navbar-brand" href="{{ url('/timetable') }}">
-                    Tvarkarasciai
-                </a>
-                <a class="navbar-brand" href="{{ url('/rule') }}">
-                    Taisykle
-                </a>
-                <a class="navbar-brand" href="{{ url('/timeslot') }}">
-                    Pamokos laikas
-                </a>
-                <a class="navbar-brand" href="{{ url('/mail') }}">
-                    Laiskai
-                </a>
-
+                @guest
+                    <a class="navbar-brand" href="{{ url('/dashboard') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                @else
+                    <a class="navbar-brand" href="{{ url('/dashboard') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                    <a class="navbar-brand" href="{{ url('/lesson') }}">
+                        Tvarkaraštis
+                    </a>
+                    <a class="navbar-brand" href="{{ url('/module') }}">
+                        Moduliai
+                    </a>
+                    <a class="navbar-brand" href="{{ url('/room') }}">
+                        Kabinetai
+                    </a>
+                    <a class="navbar-brand" href="{{ url('/mail') }}">
+                        Laiskai
+                    </a>
+                    @if (Auth::user()->role >= 3)
+                        <a class="navbar-brand" href="{{ url('/school') }}">
+                            Mokyklos
+                        </a>
+                        <a class="navbar-brand" href="{{ url('/rule') }}">
+                            Taisyklė
+                        </a>
+                        <a class="navbar-brand" href="{{ url('/timetable') }}">
+                            Tvarkaraščių Archyvas
+                        </a>
+                        <a class="navbar-brand" href="{{ url('/timeslot') }}">
+                            Pamokos laikas
+                        </a>
+                    @endif
+                    @if (Auth::user()->role == 2)
+                        <a class="navbar-brand" href="{{ url('/group') }}">
+                            Grupės
+                        </a>
+                        <a class="navbar-brand" href="{{ url('/grade') }}">
+                            Pažymiai
+                        </a>
+                    @endif
+                    @if (Auth::user()->role == 1)
+                        <a class="navbar-brand" href="{{ url('/grade') }}">
+                            Pažymiai
+                        </a>
+                    @endif
+                @endguest
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
