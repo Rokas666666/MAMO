@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/module/create">Create a new module</a>
-    <h1>Modules:</h1>
+    <a href="/module/create">Sukurti naują modulį</a>
+    <h1>Moduliai:</h1>
     @if(count($modules) >= 1)
         @foreach($modules as $module)
             <div class="well">
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>No module found</p>
+        <p>Nerasta modulių</p>
     @endif
 @endsection

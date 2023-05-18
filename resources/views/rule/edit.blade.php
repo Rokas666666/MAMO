@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Keisti taisykles informacija</h1>
+    <h1>Redaguoti taisyklės informaciją</h1>
     {!! Form::open(['action' => ['\App\Http\Controllers\RuleController@update', $rule->id], 'method' => 'POST']) !!}
         <div class="formGroup">
-            {{Form::label('dateFrom', 'Taisykles galiojimo pradzia')}}
+            {{Form::label('dateFrom', 'Taisyklės galiojimo pradžia')}}
             {{Form::date('dateFrom', \Carbon\Carbon::now())}}
         </div>
         <div class="formGroup">
-            {{Form::label('dateTo', 'Taisykles galiojimo pabaiga')}}
+            {{Form::label('dateTo', 'Taisyklės galiojimo pabaiga')}}
             {{Form::date('dateTo', \Carbon\Carbon::now())}}
         </div>
         <div class="formGroup">

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/school/create">Uzregistruoti nauja mokykla</a>
+    <a href="/school/create">Registruoti naują mokyklą</a>
     <h1>Mokyklos:</h1>
     @if(count($schools) >= 1)
         @foreach($schools as $school)
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Nerasta mokyklu</p>
+        <p>Nerasta mokyklų</p>
     @endif
 @endsection

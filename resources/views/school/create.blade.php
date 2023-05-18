@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Uzregistruoti nauja mokykla</h1>
+    <h1>Registruoti naują mokyklą</h1>
     {!! Form::open(['action' => '\App\Http\Controllers\SchoolController@store', 'method' => 'POST']) !!}
         <div class="formGroup">
             {{Form::label('title', 'Pavadinimas')}}

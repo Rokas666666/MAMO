@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Keisti pazymio informacija</h1>
+    <h1>Redaguoti pažymio informaciją</h1>
     {!! Form::open(['action' => ['\App\Http\Controllers\GradeController@update', $grade->id], 'method' => 'POST']) !!}
         <div class="formGroup">
             {{Form::label('value', 'value')}}

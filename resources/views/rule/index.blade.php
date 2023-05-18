@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/rule/create">Sukurti nauja taisykle</a>
-    <h1>Taisykliu archyvas:</h1>
+    <a href="/rule/create">Sukurti naują taisyklę</a>
+    <h1>Taisyklių archyvas:</h1>
     @if(count($rules) >= 1)
         @foreach($rules as $rule)
             <div class="well">
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Nerasta taisykliu</p>
+        <p>Nerasta taisyklių</p>
     @endif
 @endsection

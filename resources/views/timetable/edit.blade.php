@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Keisti pazymio informacija</h1>
+    <h1>Readaguoti tvarkaraščio informaciją</h1>
     {!! Form::open(['action' => ['\App\Http\Controllers\TimetableController@update', $timetable->id], 'method' => 'POST']) !!}
         <div class="formGroup">
-            {{Form::label('year', 'Tvarkarascio metai')}}
+            {{Form::label('year', 'Tvarkaraščio metai')}}
             {{Form::date('year', \Carbon\Carbon::now())}}
         </div>
 

@@ -1,0 +1,35 @@
+
+h3 {
+    size: 2px
+}
+h1 {
+color: black;
+}
+.well {
+  background-color: #B0C4DE;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+}
+/* unvisited link */
+a {
+  color: black;
+}
+
+/* mouse over link */
+a:hover {
+  color: blue;
+}
+
+
+th, td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 0px;
+  padding-right: 4px;
+}
+body {
+  margin: 25px;
+  display: flex;
+}
