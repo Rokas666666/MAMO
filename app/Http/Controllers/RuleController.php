@@ -96,7 +96,7 @@ class RuleController extends Controller
 
     public function selectTeachers()
     {
-        $teachers = User::where('role', 1)
+        $teachers = User::where('role', 2)
                         ->where('school_id', Auth::user()->school_id)
                         ->get()
                         ->pluck('name', 'id');
