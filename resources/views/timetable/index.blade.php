@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/timetable/create">Sukurti nauja tvarkarasti</a>
+    <a href="/timetable/create">Sukurti naują tvarkaraštį</a>
     <h1>Tvarkarasciu archyvas:</h1>
     @if(count($timetables) >= 1)
         @foreach($timetables as $timetable)
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Nerasta tvarkarasciu</p>
+        <p>Nerasta tvarkaraščių</p>
     @endif
 @endsection

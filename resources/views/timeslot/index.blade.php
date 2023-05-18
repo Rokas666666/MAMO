@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/timeslot/create">Uzregistruoti nauja pamokos laika</a>
+    <a href="/timeslot/create">Registruoti naują pamokos laiką</a>
     <h1>Pamokos laikai:</h1>
     @if(count($timeslots) >= 1)
     <table class="table">
@@ -19,12 +19,12 @@
                 <td>{{$timeslot->slot}}</td>
                 <td>{{$timeslot->start}}</td>
                 <td>{{$timeslot->end()}}</td>
-                <td><a href="/timeslot/{{$timeslot->id}}">Keisti</td>
+                <td><a href="/timeslot/{{$timeslot->id}}">Redaguoti</td>
             </tr>
         @endforeach
         </tbody>
     </table>
     @else
-        <p>Nerasta pamokos laiku</p>
+        <p>Nerasta pamokos laikų</p>
     @endif
 @endsection

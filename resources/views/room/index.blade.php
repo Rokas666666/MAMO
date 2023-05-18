@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/room/create">Registruoti nauja kabineta</a>
+    <a href="/room/create">Registruoti naują kabinetą</a>
     <h1>Kabinetai:</h1>
     @if(count($rooms) >= 1)
         @foreach($rooms as $room)
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Nerasta kabinetu</p>
+        <p>Nerasta kabinetų</p>
     @endif
 @endsection

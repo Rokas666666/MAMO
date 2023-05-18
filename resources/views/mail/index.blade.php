@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/mail/create">Sukurti nauja laiska</a>
-    <h1>Jusu laiskai:</h1>
+    <a href="/mail/create">Sukurti naują laišką</a>
+    <h1>Jūsų laiškai:</h1>
     @if(count($mails) >= 1)
         @foreach($mails as $mail)
             <div class="well">
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Jus neturite laisku</p>
+        <p>Nėra laiškų</p>
     @endif
 @endsection

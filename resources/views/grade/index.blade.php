@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <a href="/grade/create">Sukurti nauja pazymi</a>
-    <h1>Pazymiai:</h1>
+    <a href="/grade/create">Sukurti naują pažymį</a>
+    <h1>Pažymiai:</h1>
     @if(count($grades) >= 1)
         @foreach($grades as $grade)
             <div class="well">
@@ -10,6 +10,6 @@
             </div>
         @endforeach
     @else
-        <p>Nerasta pazymiu</p>
+        <p>Nerasta pažymių</p>
     @endif
 @endsection

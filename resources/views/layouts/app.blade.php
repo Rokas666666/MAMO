@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Latest compiled and minified CSS 
+    <!-- Latest compiled and minified CSS
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
-    <!-- jQuery library 
+    <!-- jQuery library
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    
-    <!-- Latest compiled JavaScript 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+    <!-- Latest compiled JavaScript
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -24,6 +24,8 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
     <div id="app">
@@ -47,20 +49,20 @@
                         Kabinetai
                     </a>
                     <a class="navbar-brand" href="{{ url('/mail') }}">
-                        Laiskai
+                        Laiškai
                     </a>
                     @if (Auth::user()->role >= 3)
                         <a class="navbar-brand" href="{{ url('/school') }}">
                             Mokyklos
                         </a>
                         <a class="navbar-brand" href="{{ url('/rule') }}">
-                            Taisyklė
+                            Taisyklės
                         </a>
                         <a class="navbar-brand" href="{{ url('/timetable') }}">
-                            Tvarkaraščių Archyvas
+                            Tvarkaraščių archyvas
                         </a>
                         <a class="navbar-brand" href="{{ url('/timeslot') }}">
-                            Pamokos laikas
+                            Pamokų laikai
                         </a>
                     @endif
                     @if (Auth::user()->role == 2)

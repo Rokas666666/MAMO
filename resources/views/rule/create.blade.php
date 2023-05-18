@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Sukurti nauja taisykle</h1>
+    <h1>Sukurti naują taisyklė</h1>
     {!! Form::open(['action' => '\App\Http\Controllers\RuleController@store', 'method' => 'POST']) !!}
         <div class="formGroup">
-            {{Form::label('dateFrom', 'Taisykles galiojimo pradzia')}}
+            {{Form::label('dateFrom', 'Taisyklės galiojimo pradžia')}}
             {{Form::date('dateFrom', \Carbon\Carbon::now())}}
         </div>
         <div class="formGroup">
-            {{Form::label('dateTo', 'Taisykles galiojimo pabaiga')}}
+            {{Form::label('dateTo', 'Taisyklės galiojimo pabaiga')}}
             {{Form::date('dateTo', \Carbon\Carbon::now())}}
         </div>
         <div class="formGroup">
