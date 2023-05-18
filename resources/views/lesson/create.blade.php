@@ -10,6 +10,7 @@
                 <option value="{{ $module->id }}">{{ $module->title }}</option>
             @endforeach
         </select>
+        <br>
         @csrf
         <label for="room_id">Kabinetas:</label>
         <select name="room_id" id="room_id">
@@ -22,7 +23,7 @@
             {{Form::date('date', \Carbon\Carbon::now())}}
         </div>
         <div class="formGroup">
-            <label for="time">Pamokos pradžia:</label>
+            <label for="time" >Pamokos pradžia:</label>
             <input type="time" id="time" name="time">
         </div>
         <div class="formGroup">

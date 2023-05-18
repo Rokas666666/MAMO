@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Sukurti nauja pažymį</h1>
+    <h1>Sukurti naują pažymį</h1>
     {!! Form::open(['action' => '\App\Http\Controllers\GradeController@store', 'method' => 'POST']) !!}
         <div class="formGroup">
             {{Form::label('value', 'Pažymys')}}

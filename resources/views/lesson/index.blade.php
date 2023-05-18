@@ -16,8 +16,7 @@
 
     <!-- Display timetable for each day of the week -->
     <h1>Tvarkaraštis:</h1>
-    <div style="white-space: nowrap">
-        @php
+    @php
             $start_date = isset($_GET['start_date']) ? new DateTime($_GET['start_date']) : new DateTime();
             $end_date = clone $start_date;
             $end_date->modify('+7 days');
@@ -27,18 +26,20 @@
         <form method="get" action="{{ route('lesson.index') }}">
             <label for="start_date">Rodyti nuo:</label>
             <input type="date" name="start_date" id="start_date" value="{{ $start_date->format('Y-m-d') }}">
-            <button type="submit">Pasirinkti</button>
+            <button type="submit"  class="btn btn-default">Pasirinkti</button>
         </form>
+    <div class="timetable">
+
 
         @foreach (new DatePeriod($start_date, new DateInterval('P1D'), $end_date) as $day)
             <!-- Display timetable for the day -->
-            <div style="display: inline-block; margin-right: 20px;">
+            <div class="timetable_block">
                 @php
                     $carbonDay = \Carbon\Carbon::instance($day);
                     $formattedDay = $carbonDay->locale('lt_LT')->isoFormat('dddd'); // Day of the week (e.g., Monday)
                     $formattedMonth = $carbonDay->locale('lt_LT')->isoFormat('MMMM'); // Month (e.g., January)
                 @endphp
-                <h5>{{ $formattedDay }}, {{ $formattedMonth }} {{ $day->format('j') }}</h5>
+                <h5>{{ $day->format('Y-m-d') }}</h5>
                 <table>
                     @for ($i = 8; $i < 18; $i++)
                         <tr>

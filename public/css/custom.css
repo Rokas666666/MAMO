@@ -1,12 +1,10 @@
 
-h3 {
-    size: 2px
-}
 h1 {
-color: black;
+color: #4da6ff;
+font-size:28px
 }
 .well {
-  background-color: #B0C4DE;
+  background-color: #b3d9ff;
   border: 1px solid #e3e3e3;
   border-radius: 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -33,3 +31,57 @@ body {
   margin: 25px;
   display: flex;
 }
+
+
+
+div.timetable {
+  width: auto;
+
+  display: flex;
+}
+
+div.timetable_block {
+  flex: 1;
+  margin-right: 20px;
+
+}
+div.timetable h5 {
+  font-weight: bold;
+  color: #66b3ff;
+}
+
+div.timetable_block tr {
+
+}
+.form-control{
+  border-color: #4da6ff ;
+  border-width: 2px;
+  border-style: solid;
+}
+.formGroup {
+padding-bottom: 10px;
+}
+label {
+padding-bottom: 2px;
+}
+.navbar-brand{
+    font-weight: bold;
+  color: #66b3ff;
+}
+.btn.btn-default {
+  border-color: #66b3ff;
+  border-width: 2px;
+  border-style: solid;
+}
+.btn.btn-danger {
+background-color:white;
+color:black;
+  border-color: red;
+  border-width: 2px;
+  border-style: solid;
+
+}
+.btn.btn-dark{
+background-color:#0080ff;
+}
+

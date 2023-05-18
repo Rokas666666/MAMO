@@ -57,10 +57,10 @@ class LessonController extends Controller
         $lesson->comment = $request->input('comment');
         $lesson->homework = $request->input('homework');
         $lesson->test = $request->input('test');
-        $lesson->timeslot_id = 0;
+        $lesson->timeslot_id = 8;
 
-        $lesson->timetable_id = Timetable::orderBy('id', 'DESC')->first()->id; //HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT 
-        
+        $lesson->timetable_id = Timetable::orderBy('id', 'DESC')->first()->id; //HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT
+
         $lesson->save();
 
         return redirect('/lesson')->with('success', 'Lesson created');

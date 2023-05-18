@@ -5,7 +5,7 @@
     {!! Form::open(['action' => ['\App\Http\Controllers\GradeController@update', $grade->id], 'method' => 'POST']) !!}
         <div class="formGroup">
             {{Form::label('value', 'value')}}
-            {{Form::text('value', $grade->value, ['class' => 'form-control', 'placeholder' => 'Grupe'])}}
+            {{Form::text('value', $grade->value, ['class' => 'form-control', 'placeholder' => 'Pažymys'])}}
         </div>
 
         {{Form::hidden('_method', 'PUT')}}
