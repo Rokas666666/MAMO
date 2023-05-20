@@ -133,11 +133,16 @@ class TimetableController extends Controller
                 $lesson = new Lesson;
                 $timeslot = $timeslots[$j%count($timeslots)];
 
-                $day = $j/count($timeslots);
-
+                $day = intdiv($j,count($timeslots));
                 $date = new \DateTime($timetable->year);
+                echo $date->format('Y-m-d H:i:s')."<br>";
+
+                if ($day > 0){
+                    echo $day."<br>";
+                    $date->modify("+".$day." day");
+                }
+                echo $date->format('Y-m-d H:i:s')."<br>";
                 $time = \DateTime::createFromFormat('H:i:s', $timeslot->start);
-                echo $time->format('H:i:s');
                 $combinedDateTime = $date->format('Y-m-d') . ' ' . $time->format('H:i:s');
                 $combinedDateTimeObj = \DateTime::createFromFormat('Y-m-d H:i:s', $combinedDateTime);
                 $lesson->time = $combinedDateTimeObj;
@@ -151,7 +156,6 @@ class TimetableController extends Controller
                 $lesson->test = "";
                 $lesson->save();
             }
-            $Matrix[$teachers[$i]->id] = $teachersWeek;
         }
 
         #return redirect('/timetable')->with('success', "Sukurta sėkmingai");
