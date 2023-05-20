@@ -123,6 +123,13 @@ class TimetableController extends Controller
 
         $this->echoTimetable($Matrix, $teachers, $timeslots);
         
+        $this->saveTimetable($Matrix, $teachers, $timeslots, $timetable);
+
+        echo "<a href='/timetable'>Baigta</a>";
+        #return redirect('/timetable')->with('success', "Sukurta sėkmingai");
+    }
+
+    private function saveTimetable($Matrix, $teachers, $timeslots, $timetable){
         $timetable->save();
 
         for ($i = 0; $i < count($teachers); $i++){
@@ -135,13 +142,10 @@ class TimetableController extends Controller
 
                 $day = intdiv($j,count($timeslots));
                 $date = new \DateTime($timetable->year);
-                echo $date->format('Y-m-d H:i:s')."<br>";
 
                 if ($day > 0){
-                    echo $day."<br>";
                     $date->modify("+".$day." day");
                 }
-                echo $date->format('Y-m-d H:i:s')."<br>";
                 $time = \DateTime::createFromFormat('H:i:s', $timeslot->start);
                 $combinedDateTime = $date->format('Y-m-d') . ' ' . $time->format('H:i:s');
                 $combinedDateTimeObj = \DateTime::createFromFormat('Y-m-d H:i:s', $combinedDateTime);
@@ -157,8 +161,6 @@ class TimetableController extends Controller
                 $lesson->save();
             }
         }
-
-        #return redirect('/timetable')->with('success', "Sukurta sėkmingai");
     }
 
     private function modifyMatrix($Matrix, $teachers, $timeslots, $modifyCount){
