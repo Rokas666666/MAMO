@@ -37,7 +37,28 @@
             {{Form::label('test', 'Testo informacija')}}
             {{Form::text('test', $lesson->test, ['class' => 'form-control', 'placeholder' => 'Testas'])}}
         </div>
-        {{Form::hidden('_method', 'PUT')}}
-        {{Form::submit('Pateikti', ['class' => 'btn btn-dark'])}}
+        <h2>Pažymiai</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($grades as $grade)
+                <tr>
+                    <td>{{ $grade->user_name }}</td>
+                    <td>
+                        <input type="number" name="grade_values[]" value="{{ $grade->value }}">
+                    </td>
+                </tr>
+                @endforeach
+                <!-- Add more rows for each student -->
+            </tbody>
+        </table>
+    {{Form::hidden('_method', 'PUT')}}
+    {{Form::submit('Pateikti', ['class' => 'btn btn-dark'])}}
     {!! Form::close() !!}
+    
 @endsection

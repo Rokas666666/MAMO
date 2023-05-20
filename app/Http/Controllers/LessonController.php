@@ -8,6 +8,8 @@ use App\Models\Module;
 use App\Models\Room;
 use App\Models\Timetable;
 use App\Models\Timeslot;
+use App\Models\Grade;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
@@ -95,7 +97,13 @@ class LessonController extends Controller
         $modules = Module::all();
         $rooms = Room::all();
         $timeslots = Timeslot::all();
-        return view('lesson.edit', compact('lesson', 'modules', 'rooms', 'timeslots'));
+        $grades = Grade::where('lesson_id', $id)->get();
+        foreach ($grades as $grade) {
+            $user = User::find($grade->user_id);
+            $grade->user_name = $user->name;
+        }
+
+        return view('lesson.edit', compact('lesson', 'modules', 'rooms', 'timeslots', 'grades'));
     }
 
     /**
@@ -105,6 +113,7 @@ class LessonController extends Controller
     {
         $this->validate($request, [
             'time' => 'required',
+            'grade_values' => 'array', // Validate grade_values as an array
         ]);
 
         $date = $request->input('date');
@@ -119,6 +128,15 @@ class LessonController extends Controller
         $lesson->homework = $request->input('homework');
         $lesson->test = $request->input('test');
         $lesson->save();
+
+        $gradeValues = $request->input('grade_values');
+        $grades = Grade::where('lesson_id', $id)->get();
+        foreach ($gradeValues as $index => $gradeValue) {
+            if ($grades[$index]) {
+                $grades[$index]->value = $gradeValue;
+                $grades[$index]->save();
+            }
+        }
 
         return redirect('/lesson')->with('success', 'Lesson updated (currently overwrites time)');
     }
