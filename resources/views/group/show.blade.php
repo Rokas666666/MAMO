@@ -7,6 +7,15 @@
         <h4>Grupės pavadinimas: {{$group->title}}</h4>
     </div>
     <hr>
+
+
+    <h3>Mokiniai:</h3>
+    <ul>
+        @foreach($group->users as $user)
+            <li>{{$user->name}}</li>
+        @endforeach
+    </ul>
+
     <a href="/group/{{$group->id}}/edit" class="btn btn-default">Redaguoti</a>
 
     {!!Form::open(['action' => ['\App\Http\Controllers\GroupController@destroy', $group->id], 'method' => 'POST', 'class' => 'pull-right'])!!}
