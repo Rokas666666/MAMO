@@ -56,11 +56,14 @@ class TimetableController extends Controller
 
         $grupes = [];
 
+        $modSpeed = $request->input("mod_speed");
+        $iter = $request->input("iter");
+
+
         //Create timetable
         $timetable = new Timetable;
         $timetable->year = $request->input('year');
         $timetable->school_id = Auth::user()->school_id;
-        //$timetable->save();
 
         //Sugeneruoti tuščią pamokų matricą
         $Matrix = [];
@@ -97,17 +100,90 @@ class TimetableController extends Controller
         }
 
         //Įvertinti tvarkaraštį
-        $score = 0;
+        $score = $this->evaluateTimetable($Matrix, $rules, $timeslots, $teachers);
 
-        for ($i = 0; $i < count($rules); $i++){
-            
+        echo $score;
+
+        $this->echoTimetable($Matrix, $teachers, $timeslots);
+
+        for ($i = 0; $i < $iter; $i++){
+            $modifiedMatrix = $this->modifyMatrix($Matrix, $teachers, $timeslots, $modSpeed);
+            $modifiedScore = $this->evaluateTimetable($modifiedMatrix, $rules, $timeslots, $teachers);
+            //echo $modifiedScore;
+            //$this->echoTimetable($modifiedMatrix, $teachers, $timeslots);
+            if ($modifiedScore > $score){
+                $Matrix = $modifiedMatrix;
+            }
         }
 
-        for ($i = 0; $i < count($timeslots)*5; $i++){
+        //Įvertinti tvarkaraštį
+        $score = $this->evaluateTimetable($Matrix, $rules, $timeslots, $teachers);
 
+        echo $score;
+
+        $this->echoTimetable($Matrix, $teachers, $timeslots);
+        
+        $timetable->save();
+
+        for ($i = 0; $i < count($teachers); $i++){
+            for ($j = 0; $j < count($timeslots)*5; $j++){
+                if ($Matrix[$teachers[$i]->id][$j] == -1){
+                    continue;
+                }
+                $lesson = new Lesson;
+                $timeslot = $timeslots[$j%count($timeslots)];
+
+                $day = intdiv($j,count($timeslots));
+                $date = new \DateTime($timetable->year);
+                echo $date->format('Y-m-d H:i:s')."<br>";
+
+                if ($day > 0){
+                    echo $day."<br>";
+                    $date->modify("+".$day." day");
+                }
+                echo $date->format('Y-m-d H:i:s')."<br>";
+                $time = \DateTime::createFromFormat('H:i:s', $timeslot->start);
+                $combinedDateTime = $date->format('Y-m-d') . ' ' . $time->format('H:i:s');
+                $combinedDateTimeObj = \DateTime::createFromFormat('Y-m-d H:i:s', $combinedDateTime);
+                $lesson->time = $combinedDateTimeObj;
+                
+                $lesson->module_id = $Matrix[$teachers[$i]->id][$j];
+                $lesson->room_id = 2; //<- pakeisti :)
+                $lesson->timetable_id = $timetable->id;
+                $lesson->timeslot_id = $timeslots[$j%count($timeslots)]->id;
+                $lesson->comment = "";
+                $lesson->homework = "";
+                $lesson->test = "";
+                $lesson->save();
+            }
         }
 
-        //Echo matricą lentelėje
+        #return redirect('/timetable')->with('success', "Sukurta sėkmingai");
+    }
+
+    private function modifyMatrix($Matrix, $teachers, $timeslots, $modifyCount){
+        $newMatrix = $Matrix;
+        for ($i = 0; $i < $modifyCount; $i++){
+            while(true){
+                $teacher = rand(0,(count($teachers)-1));
+                $teacher = $teachers[$teacher];
+                $time1 = rand(0, (count($timeslots)*5)-1);
+                $time2 = rand(0, (count($timeslots)*5)-1);
+                if ($newMatrix[$teacher->id][$time1] != -1 || $newMatrix[$teacher->id][$time2] != -1){
+                    //echo "swapinu ".$time1." ir ".$time2;
+                    $temp = $newMatrix[$teacher->id][$time1];
+                    $newMatrix[$teacher->id][$time1] = $newMatrix[$teacher->id][$time2];
+                    $newMatrix[$teacher->id][$time2] = $temp;
+                    break;
+                }
+            }
+        }
+        //$this->echoTimetable($newMatrix, $teachers, $timeslots);
+        return $newMatrix;
+    }
+
+    private function echoTimetable($Matrix, $teachers, $timeslots){
+                //Echo matricą lentelėje
         $dienos = [0 => "pirmadienis",
                    1 => "antradienis",
                    2 => "treciadienis",
@@ -134,10 +210,58 @@ class TimetableController extends Controller
             echo "</tr>";
         }
         echo "</table>";
+    }
 
+    private function evaluateTimetable($Matrix, $rules, $timeslots, $teachers){
+        $score = 0;
         
+        //įvertinti taisykles
+        for ($i = 0; $i < count($rules); $i++){
+            $rule = $rules[$i];
+            $user = $rule->userID;
+            $restriction = intval($rule->restriction);
+            if ($restriction < 5 && $restriction >= 0){
+                for ($j = $restriction*count($timeslots); $j < $restriction*count($timeslots)+count($timeslots); $j++){
+                    if ($Matrix[$user][$j] != -1){
+                        $score -= 5000;
+                    }
+                }
+            }
+        }
 
-        #return redirect('/timetable')->with('success', "Sukurta sėkmingai");
+        // //Stengtis kad pamokos nebūtų išmėtytos per visas dienas
+        // for ($diena = 0; $diena < 5; $diena++){
+        //     for ($i = 0; $i < count($teachers); $i++){
+        //         $penalty = 0;
+        //         $id = $teachers[$i]->id;
+        //         for ($j = 0; $j < count($timeslots); $j++){
+        //             if ($Matrix[$id][$diena*count($timeslots) + $j] != -1){
+        //                 $penalty = -50;
+        //             }
+        //         }
+        //         $score += $penalty;
+        //     }    
+        // }
+
+        for ($diena = 0; $diena < 5; $diena++){
+            for ($i = 0; $i < count($teachers); $i++){
+                $id = $teachers[$i]->id;
+                $hasLesson = false;
+                $emptySlots = 0;
+                for ($j = 0; $j < count($timeslots); $j++){
+                    if ($Matrix[$id][$diena*count($timeslots) + $j] != -1){
+                        $hasLesson = true;
+                    }
+                    else{
+                        $emptySlots++;
+                    }
+                }
+                if ($hasLesson){
+                    $score -= $emptySlots*20;
+                }
+            }    
+        }
+        return $score;
     }
 
     /**
@@ -177,6 +301,10 @@ class TimetableController extends Controller
     public function destroy(string $id)
     {
         $timetable = Timetable::find($id);
+
+        $lessons = Lesson::where('timetable_id', $id);
+        $lessons->delete();
+
         $timetable->delete();
         return redirect('/timetable')->with('success', 'Tvarkarastis panaikintas');
     }

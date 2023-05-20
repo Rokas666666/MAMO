@@ -20,7 +20,10 @@ class LessonController extends Controller
         //return view('lesson.index')->with('lessons', $lessons);
 
         $userID = Auth::id();
-        $lessons = Lesson::where('id', $userID)->get();
+        $lessons = Lesson::join("modules", "lessons.module_id", "=", "modules.id")
+                         ->select("modules.user_id as user_id", "lessons.*")
+                         ->where('user_id', $userID)
+                         ->get();
         return view('lesson.index')->with('lessons', $lessons);
     }
 
