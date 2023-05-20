@@ -7,6 +7,7 @@ use App\Models\Lesson;
 use App\Models\Module;
 use App\Models\Room;
 use App\Models\Timetable;
+use App\Models\Timeslot;
 use Illuminate\Support\Facades\Auth;
 
 class LessonController extends Controller
@@ -59,11 +60,11 @@ class LessonController extends Controller
         $lesson = new Lesson;
         $lesson->module_id = $request->input('module_id');
         $lesson->room_id = $request->input('room_id');
-        $lesson->time = date('Y-m-d', strtotime("$date $time"));
+        $lesson->time = date('Y-m-d H:i', strtotime("$date $time"));
         $lesson->comment = $request->input('comment');
         $lesson->homework = $request->input('homework');
         $lesson->test = $request->input('test');
-        $lesson->timeslot_id = request->input('timeslot_id');
+        $lesson->timeslot_id = $request->input('timeslot_id');
 
         $lesson->timetable_id = Timetable::orderBy('id', 'DESC')->first()->id; //HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT
 
