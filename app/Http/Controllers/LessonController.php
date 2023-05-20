@@ -20,7 +20,9 @@ class LessonController extends Controller
         //return view('lesson.index')->with('lessons', $lessons);
 
         $userID = Auth::id();
-        $lessons = Lesson::where('id', $userID)->get();
+        $modules = Modules::where('user_id', $userID)->get();
+        $moduleIds = $modules->pluck('id');
+        $lessons = Lesson::whereIn('module_id', $moduleIds)->get();
         return view('lesson.index')->with('lessons', $lessons);
     }
 
@@ -31,7 +33,8 @@ class LessonController extends Controller
     {
         $modules = Module::where('user_id', Auth::id())->get();
         $rooms = Room::where('school_id', Auth::user()->school_id)->get();
-        return view('lesson.create', compact('modules', 'rooms'));
+        $timeslots = Timeslot::all();
+        return view('lesson.create', compact('modules', 'rooms', 'timeslots'));
     }
 
     /**
@@ -53,11 +56,11 @@ class LessonController extends Controller
         $lesson = new Lesson;
         $lesson->module_id = $request->input('module_id');
         $lesson->room_id = $request->input('room_id');
-        $lesson->time = date('Y-m-d H:i', strtotime("$date $time"));
+        $lesson->time = date('Y-m-d', strtotime("$date $time"));
         $lesson->comment = $request->input('comment');
         $lesson->homework = $request->input('homework');
         $lesson->test = $request->input('test');
-        $lesson->timeslot_id = 8;
+        $lesson->timeslot_id = request->input('timeslot_id');
 
         $lesson->timetable_id = Timetable::orderBy('id', 'DESC')->first()->id; //HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT HARDCODED ALERT
 
@@ -74,7 +77,8 @@ class LessonController extends Controller
         $lesson = Lesson::find($id);
         $moduleLesson = Module::find($lesson->module_id);
         $roomLesson = Room::find($lesson->room_id);
-        return view('lesson.show', compact('lesson', 'moduleLesson', 'roomLesson'));
+        $timeslotLesson = TimeSlot::find($lesson->timeslot_id);
+        return view('lesson.show', compact('lesson', 'moduleLesson', 'roomLesson', 'timeslotLesson'));
         //return view('lesson.show')->with('lesson', $lesson);
     }
 
@@ -86,7 +90,8 @@ class LessonController extends Controller
         $lesson = Lesson::find($id);
         $modules = Module::all();
         $rooms = Room::all();
-        return view('lesson.edit', compact('lesson', 'modules', 'rooms'));
+        $timeslots = Timeslot::all();
+        return view('lesson.edit', compact('lesson', 'modules', 'rooms', 'timeslots'));
     }
 
     /**
