@@ -11,6 +11,8 @@ use App\Models\Timeslot;
 use App\Models\Grade;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Mail\Message;
 
 class LessonController extends Controller
 {
@@ -135,6 +137,16 @@ class LessonController extends Controller
             if ($grades[$index]) {
                 $grades[$index]->value = $gradeValue;
                 $grades[$index]->save();
+            }
+
+
+            if ($gradeValue < 4) {
+                $user = $grades[$index]->user; 
+    
+                // Send an email to the user
+                Mail::raw('Your grade is less than 3. Please contact your instructor for further assistance.', function (Message $message) use ($user) {
+                    $message->to("mamo.laravel@gmail.com")->subject('Low Grade Notification');
+                });
             }
         }
 
