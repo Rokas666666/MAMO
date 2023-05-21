@@ -133,20 +133,22 @@ class LessonController extends Controller
 
         $gradeValues = $request->input('grade_values');
         $grades = Grade::where('lesson_id', $id)->get();
-        foreach ($gradeValues as $index => $gradeValue) {
-            if ($grades[$index]) {
-                $grades[$index]->value = $gradeValue;
-                $grades[$index]->save();
-            }
-
-
-            if ($gradeValue < 4) {
-                $user = $grades[$index]->user; 
+        if ($gradeValues != null){
+            foreach ($gradeValues as $index => $gradeValue) {
+                if ($grades[$index]) {
+                    $grades[$index]->value = $gradeValue;
+                    $grades[$index]->save();
+                }
     
-                // Send an email to the user
-                Mail::raw('Your grade is less than 3. Please contact your instructor for further assistance.', function (Message $message) use ($user) {
-                    $message->to("mamo.laravel@gmail.com")->subject('Low Grade Notification');
-                });
+    
+                if ($gradeValue < 4) {
+                    $user = $grades[$index]->user; 
+        
+                    // Send an email to the user
+                    Mail::raw('Pranešame kad jums buvo įrašytas neigiamas pažimys', function (Message $message) use ($user) {
+                        $message->to("mamo.laravel@gmail.com")->subject('Neigiamo pažimio pranešimas');
+                    });
+                }
             }
         }
 

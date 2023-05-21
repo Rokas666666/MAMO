@@ -25,6 +25,12 @@
             <label for="time">Pamokos pradžia:</label>
             <input type="time" id="time" name="time">
         </div>
+        <label for="timeslot_id" >Pamokos pradžia:</label>
+        <select name="timeslot_id" id="timeslot_id">
+            @foreach($timeslots as $timeslot)
+                <option value="{{ $timeslot->id }}">{{ $timeslot->slot }}</option>
+            @endforeach
+        </select>
         <div class="formGroup">
             {{Form::label('comment', 'Komentaras')}}
             {{Form::textarea('comment', $lesson->comment, ['class' => 'form-control', 'placeholder' => 'Komentaras'])}}

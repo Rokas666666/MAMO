@@ -26,7 +26,7 @@
             <label for="time" >Pamokos pradžia:</label>
             <input type="time" id="time" name="time">
         </div>
-        <label for="timeslot_id" >Pamokos pradžia:</label>
+        <label for="timeslot_id" >Pasirinkti pamokos laika:</label>
         <select name="timeslot_id" id="timeslot_id">
             @foreach($timeslots as $timeslot)
                 <option value="{{ $timeslot->id }}">{{ $timeslot->slot }}</option>
