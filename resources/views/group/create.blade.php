@@ -8,16 +8,6 @@
             {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Grupė'])}}
         </div>
 
-        <div class="formGroup">
-            {{Form::label('users', 'Pasirinkti mokinius')}}
-            <br>
-            @foreach($users as $user)
-                {{Form::checkbox('users[]', $user->id)}}
-                {{Form::label('user_'.$user->id, $user->name)}}
-                <br>
-            @endforeach
-        </div>
-
         {{Form::submit('Pateikti', ['class' => 'btn btn-dark'])}}
     {!! Form::close() !!}
 @endsection

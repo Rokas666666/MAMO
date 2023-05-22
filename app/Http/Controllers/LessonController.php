@@ -25,11 +25,21 @@ class LessonController extends Controller
         //return view('lesson.index')->with('lessons', $lessons);
 
         $userID = Auth::id();
-        $lessons = Lesson::join("modules", "lessons.module_id", "=", "modules.id")
-                         ->select("modules.user_id as user_id", "lessons.*")
-                         ->where('user_id', $userID)
-                         ->orderBy('time', "asc")
-                         ->get();
+
+        if (Auth::user()->role < 2) {
+            $lessons = Lesson::join("grades", "lessons.id", "=", "grades.lesson_id")
+                            ->select("grades.user_id as user_id", "lessons.*")
+                            ->where('user_id', $userID)
+                            ->orderBy('time', "asc")
+                            ->get();
+        }
+        if (Auth::user()->role > 1) {
+                $lessons = Lesson::join("modules", "lessons.module_id", "=", "modules.id")
+                                ->select("modules.user_id as user_id", "lessons.*")
+                                ->where('user_id', $userID)
+                                ->orderBy('time', "asc")
+                                ->get();
+        }
 
         return view('lesson.index')->with('lessons', $lessons);
     }
@@ -86,7 +96,18 @@ class LessonController extends Controller
         $moduleLesson = Module::find($lesson->module_id);
         $roomLesson = Room::find($lesson->room_id);
         $timeslotLesson = TimeSlot::find($lesson->timeslot_id);
-        return view('lesson.show', compact('lesson', 'moduleLesson', 'roomLesson', 'timeslotLesson'));
+        if (Auth::user()->role < 2){
+            $grades = Grade::where('user_id', Auth::id())->where('lesson_id', $id)->get(); 
+        }
+        else{
+            $grades = Grade::where('lesson_id', $id)->get(); 
+        }
+        foreach ($grades as $grade) {
+            $user = User::find($grade->user_id);
+            $grade->user_name = $user->name;
+        }
+
+        return view('lesson.show', compact('lesson', 'moduleLesson', 'roomLesson', 'timeslotLesson', 'grades'));
         //return view('lesson.show')->with('lesson', $lesson);
     }
 
